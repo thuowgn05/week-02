@@ -1,0 +1,62 @@
+@model ProductViewModel
+@{
+    ViewData["Title"] = "View Component và Partial View";
+}
+
+<div lang="vi">
+    <h1>View Component và Partial View</h1>
+    <p class="lead">Hai cách tái sử dụng giao diện trong ASP.NET Core MVC.</p>
+    <p class="text-muted">Tất cả sản phẩm và giá bên dưới đều là dữ liệu mẫu để học lập trình.</p>
+
+    <section class="mb-5" aria-labelledby="partial-heading">
+        <h2 id="partial-heading">1. Partial View: nhận dữ liệu và hiển thị</h2>
+        <p>
+            Controller tạo một <code>ProductViewModel</code> rồi truyền vào trang này.
+            Partial View <code>_ProductCard.cshtml</code> nhận sản phẩm và vẽ thẻ,
+            không tự truy vấn hay lựa chọn sản phẩm.
+        </p>
+        <pre class="bg-light border rounded p-3"><code>&lt;partial name="_ProductCard" model="Model" /&gt;</code></pre>
+        <div class="row">
+            <div class="col-md-6">
+                <partial name="_ProductCard" model="Model" />
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="component-heading">
+        <h2 id="component-heading">2. View Component: xử lý dữ liệu rồi hiển thị</h2>
+        <p>
+            <code>FeaturedProductsViewComponent</code> tự chuẩn bị danh sách mẫu,
+            sắp xếp theo giá tăng dần và lấy tối đa <code>count</code> sản phẩm.
+            Controller của trang không cần chuẩn bị danh sách này.
+        </p>
+        <pre class="bg-light border rounded p-3"><code>@@await Component.InvokeAsync("FeaturedProducts", new { count = 2 })</code></pre>
+        @await Component.InvokeAsync("FeaturedProducts", new { count = 2 })
+        <p class="mt-3">
+            View của component lại dùng <code>_ProductCard</code> để hiển thị từng sản phẩm.
+            Vì vậy View Component và Partial View có thể phối hợp với nhau.
+        </p>
+        <details>
+            <summary>Thử cùng component với count = 0</summary>
+            <div class="mt-3">
+                @await Component.InvokeAsync("FeaturedProducts", new { count = 0 })
+            </div>
+        </details>
+    </section>
+
+    <section class="mb-4" aria-labelledby="comparison-heading">
+        <h2 id="comparison-heading">3. Chọn cách nào?</h2>
+        <dl>
+            <dt>Đã có dữ liệu, chỉ cần tái sử dụng HTML</dt>
+            <dd>Dùng Partial View: thẻ sản phẩm, thông tin người dùng, một nhóm trường biểu mẫu.</dd>
+            <dt>Cần một khối giao diện có logic lấy hoặc xử lý dữ liệu riêng</dt>
+            <dd>Dùng View Component: giỏ hàng, danh mục menu, sản phẩm gợi ý.</dd>
+            <dt>Cần khung chung cho cả trang</dt>
+            <dd>Dùng Layout, ví dụ <code>_Layout.cshtml</code>.</dd>
+        </dl>
+        <p>
+            View Component không phải controller và không tự có URL riêng.
+            Cả hai ví dụ đều tạo HTML ở server, không tự cập nhật bằng JavaScript.
+        </p>
+    </section>
+</div>

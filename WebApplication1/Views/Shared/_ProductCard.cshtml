@@ -1,0 +1,9 @@
+@model ProductViewModel
+
+<article class="card h-100">
+    <div class="card-body">
+        <h3 class="h5 card-title">@Model.Name</h3>
+        <p class="card-text">@Model.Description</p>
+        <p class="fw-bold mb-0">@Model.Price.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")) ₫</p>
+    </div>
+</article>

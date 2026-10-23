@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Conventional và Attribute Routing";
+}
+
+<div lang="vi">
+    <h1>Conventional và Attribute Routing</h1>
+    <p class="lead">Routing xác định controller và action xử lý một request.</p>
+
+    <section class="mb-4" aria-labelledby="conventional-heading">
+        <h2 id="conventional-heading">1. Conventional Routing</h2>
+        <p>Dùng mẫu URL chung đã khai báo trong <code>Program.cs</code>:</p>
+        <pre class="bg-light border rounded p-3"><code>{controller=Home}/{action=Index}/{id?}</code></pre>
+        <p>
+            <code>/RoutingExamples/Product/5</code> chọn <code>RoutingExamplesController.Product</code>.
+            Model binding chuyển giá trị route <code>id</code> thành tham số số nguyên <code>5</code>.
+        </p>
+        <a asp-controller="RoutingExamples" asp-action="Product" asp-route-id="5" class="btn btn-primary">Thử Conventional Routing</a>
+    </section>
+
+    <section class="mb-4" aria-labelledby="attribute-heading">
+        <h2 id="attribute-heading">2. Attribute Routing</h2>
+        <p>Khai báo URL ngay trên controller và action:</p>
+        <pre class="bg-light border rounded p-3"><code>[Route("routing-demo/products")]
+public class AttributeProductsController : Controller
+{
+    [HttpGet("{id:int}", Name = "AttributeProduct")]
+    public IActionResult Details(int id) { /* ... */ }
+}</code></pre>
+        <p>
+            <code>GET /routing-demo/products/5</code> chọn <code>AttributeProductsController.Details</code>.
+            URL không cần chứa tên controller hay action.
+        </p>
+        <a asp-route="AttributeProduct" asp-route-id="5" class="btn btn-primary">Thử Attribute Routing</a>
+    </section>
+
+    <section class="mb-4" aria-labelledby="notes-heading">
+        <h2 id="notes-heading">3. Những điểm cần nhớ</h2>
+        <ul>
+            <li><code>{id:int}</code> là điều kiện khớp route, không kiểm tra dữ liệu trong database.</li>
+            <li><code>/routing-demo/products/abc</code> không khớp route và trả 404 trong ví dụ này.</li>
+            <li><code>POST /routing-demo/products/5</code> trả 405 vì action chỉ nhận GET.</li>
+            <li><code>/AttributeProducts/Details/5</code> trả 404: action attribute-routed không đồng thời có URL conventional.</li>
+            <li><code>[HttpGet]</code> không có template trên action conventional chỉ giới hạn HTTP method.</li>
+            <li><code>MapControllerRoute</code> hiện có hỗ trợ cả hai cách; không cần thêm <code>MapControllers</code>.</li>
+        </ul>
+        <p class="text-muted">Các trang kết quả dùng chung một View và hiển thị thông tin request thật.</p>
+    </section>
+</div>

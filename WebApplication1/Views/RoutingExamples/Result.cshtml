@@ -1,0 +1,24 @@
+@model RoutingExampleViewModel
+@{
+    ViewData["Title"] = Model.RoutingType;
+}
+
+<div lang="vi">
+    <h1>@Model.RoutingType</h1>
+    <p class="lead">Request đã được ánh xạ đến action và truyền tham số thành công.</p>
+    <dl class="row border rounded p-3">
+        <dt class="col-sm-3">HTTP method</dt>
+        <dd class="col-sm-9"><code>@Context.Request.Method</code></dd>
+        <dt class="col-sm-3">URL path</dt>
+        <dd class="col-sm-9"><code>@Context.Request.Path</code></dd>
+        <dt class="col-sm-3">Controller</dt>
+        <dd class="col-sm-9"><code>@ViewContext.RouteData.Values["controller"]</code></dd>
+        <dt class="col-sm-3">Action</dt>
+        <dd class="col-sm-9"><code>@ViewContext.RouteData.Values["action"]</code></dd>
+        <dt class="col-sm-3">Tham số id</dt>
+        <dd class="col-sm-9" id="product-id">@Model.ProductId</dd>
+    </dl>
+    <p>Ví dụ chỉ minh họa routing và model binding, không truy vấn hay xác nhận sản phẩm tồn tại.</p>
+    <p>Cả hai action dùng chung một View để anh dễ so sánh kết quả.</p>
+    <a asp-controller="RoutingExamples" asp-action="Index" class="btn btn-outline-primary">Quay lại bài routing</a>
+</div>

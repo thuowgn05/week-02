@@ -1,0 +1,17 @@
+@model ProductViewModel[]
+
+@if (Model.Length == 0)
+{
+    <p class="text-muted">Không có sản phẩm để hiển thị.</p>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-6">
+                <partial name="_ProductCard" model="product" />
+            </div>
+        }
+    </div>
+}
